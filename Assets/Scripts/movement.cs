@@ -11,6 +11,7 @@ public class movement : MonoBehaviour
     public Animator animator;
 
     bool interacting;
+    int interactions;
     float interactTimer;
     Vector2 move;
 
@@ -31,6 +32,7 @@ public class movement : MonoBehaviour
                 animator.SetBool("interacting", true);
                 interacting = true;
                 interactTimer = 0;
+                interactions = 1;
             }
         }
         else
@@ -56,18 +58,24 @@ public class movement : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if(interacting)
+        Debug.Log("colliding with a " + collision.gameObject.tag);
+        if(interacting && interactions > 0)
         {
             if(collision.gameObject.tag == "Mirror")
             {
-                collision.gameObject.rotate();
+                collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * -45f);
+                interactions--;
             }
-            if (collision.gameObject.tag == "Key")
-            {
-                collision.gameObject.pickUp();
-            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if(trigger.gameObject.tag == "Key")
+        {
+            trigger.transform.Rotate(trigger.transform.forward * 45f);
         }
     }
 }
