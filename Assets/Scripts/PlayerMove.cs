@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movement : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
+    public Vector2 startPos;
     public float speed = 20f;
     public CircleCollider2D self;
     public Rigidbody2D rb;
@@ -15,7 +16,9 @@ public class movement : MonoBehaviour
     float interactTimer;
     Vector2 move;
 
-    // Update is called once per frame
+    bool clockwise = false;
+    bool anticlockwise = false;
+
     void Update()
     {
         if(!interacting)
@@ -27,10 +30,20 @@ public class movement : MonoBehaviour
             animator.SetFloat("vertical", move.y);
             animator.SetFloat("speed", move.sqrMagnitude);
 
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Q))
             {
                 animator.SetBool("interacting", true);
                 interacting = true;
+                clockwise = true;
+                interactTimer = 0;
+                interactions = 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                animator.SetBool("interacting", true);
+                interacting = true;
+                anticlockwise = true;
                 interactTimer = 0;
                 interactions = 1;
             }
@@ -50,7 +63,7 @@ public class movement : MonoBehaviour
         {
             interactTimer += Time.fixedDeltaTime;
 
-            if(interactTimer >= 1)
+            if(interactTimer >= 0.1)
             {
                 animator.SetBool("interacting", false);
                 interacting = false;
@@ -60,12 +73,22 @@ public class movement : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log("colliding with a " + collision.gameObject.tag);
         if(interacting && interactions > 0)
         {
             if(collision.gameObject.tag == "Mirror")
             {
-                collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * -45f);
+                if (clockwise)
+                {
+                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * -5f);
+                    clockwise = false;
+                }
+            
+                if(anticlockwise)
+                {
+                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * 5f);
+                    anticlockwise = false;
+                }
+
                 interactions--;
             }
         }
@@ -75,7 +98,12 @@ public class movement : MonoBehaviour
     {
         if(trigger.gameObject.tag == "Key")
         {
-            trigger.transform.Rotate(trigger.transform.forward * 45f);
+            trigger.gameObject.SetActive(false);
         }
+    }
+
+    public void Reset()
+    {
+        rb.transform.position = startPos;
     }
 }

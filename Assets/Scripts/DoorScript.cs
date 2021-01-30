@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class DoorScript: MonoBehaviour
 {
+    public Vector2 startPos;
     public Vector2 doorMovement;
     public float Speed;
     public Rigidbody2D door;
@@ -12,7 +13,7 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enabled = false;
+        
 
         unitMove.x = doorMovement.x / Speed;
         unitMove.y = doorMovement.y / Speed;
@@ -27,5 +28,10 @@ public class Move : MonoBehaviour
     void FixedUpdate()
     {
         door.MovePosition(door.position + unitMove * Speed * Time.fixedDeltaTime);
+    }
+
+    public void Reset()
+    {
+        door.transform.position = startPos;
     }
 }
