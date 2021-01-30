@@ -12,7 +12,13 @@ public class Mirror : MonoBehaviour
     public bool createBeam;
 
     public Vector3 lightOutAngle;
-    Vector3 reflectAngle;
+    public Vector3 reflectAngle;
+
+    public Vector3 startPos;
+    public Vector3 mid;
+    public Vector3 rightVec;
+    public Vector3 norm;
+    public Vector3 normalizedNormal;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +33,17 @@ public class Mirror : MonoBehaviour
         float vert = Input.GetAxis("Vertical");
         float horiz = Input.GetAxis("Horizontal");
 
-        transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), vert * 0.05f);
+        if (Input.GetKeyDown("space"))
+        {
+            transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 5.0f);
+        }
 
-        if(!createBeam && LightBeam != null)
+        if((Mathf.Round(norm.x * 100.0f)) / 100.0f != (Mathf.Round(transform.right.x * 100.0f)) / 100.0f)
+        {
+            createBeam = false;
+        }
+
+        if(LightBeam != null && !createBeam)
         {
             Destroy(LightBeam);
             LightBeam = null;
@@ -38,15 +52,18 @@ public class Mirror : MonoBehaviour
         RaycastHit2D hit;
 
         float width = GetComponent<BoxCollider2D>().bounds.size.x + 0.001f;
-        Vector3 startPos = transform.position + (transform.right * (width / 2));
+        startPos = transform.position + (transform.right * (width / 2));
 
         if (hit = Physics2D.Raycast(startPos, lightOutAngle))
         {
+            Debug.DrawRay(startPos, lightOutAngle);
+
             if (!hit.collider.isTrigger)
             {
+                rightVec = transform.right;
                 if (hitObj != null)
                 {
-                    if (hit.collider.gameObject != hitObj && hitObj.tag == "Mirror")
+                    if (hitObj.tag == "Mirror" && hit.collider.gameObject != hitObj)
                     {
                         hitObj.GetComponent<Mirror>().createBeam = false;
                     }
@@ -91,10 +108,13 @@ public class Mirror : MonoBehaviour
             Vector3 point = hit.point;
             Vector3 dir = point - startPos;
 
-            Vector3 mid = new Vector3(((point.x + startPos.x) / 2), ((point.y + startPos.y) / 2), ((point.z + startPos.z) / 2));
+            mid = new Vector3(((point.x + startPos.x) / 2), ((point.y + startPos.y) / 2), ((point.z + startPos.z) / 2));
             LightBeam.transform.position = mid;
             LightBeam.transform.localScale = new Vector3(dir.magnitude, 1.4f, 0.0f);
-            LightBeam.transform.eulerAngles = transform.localEulerAngles;
+
+            float angle = Vector3.Angle(transform.right, lightOutAngle);
+            angle = lightOutAngle.y > 0.0f ? -angle : angle;
+            LightBeam.transform.localEulerAngles = (new Vector3(0.0f,0.0f,1.0f) * angle * 2);
 
             // Update the reflection angle of the hit mirror's light beam
             Vector3 normal = hit.normal;

@@ -9,8 +9,8 @@ public class LightSource : MonoBehaviour
     GameObject LightBeam;
     public GameObject LightObject;
 
-    Vector3 lightOutAngle;
-    Vector3 reflectAngle;
+    public Vector3 reflectAngle;
+    public Vector3 norm;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +28,17 @@ public class LightSource : MonoBehaviour
 
         if (hit = Physics2D.Raycast(startPos, transform.right))
         {
+            Debug.DrawRay(startPos, transform.right);
+
             if (!hit.collider.isTrigger)
             {
                 if (hitObj != null)
                 {
+                    Vector3 normal = hit.point;
+                    norm = normal.normalized;
+
                     // if the light beam hits a different object then set the previous objects createBeam flag to false
-                    if (hit.collider.gameObject != hitObj && hitObj.tag == "Mirror")
+                    if (hitObj.tag == "Mirror" && (hit.collider.gameObject != hitObj || normal.normalized != hit.transform.right))
                     {
                         hitObj.GetComponent<Mirror>().createBeam = false;
                     }
@@ -73,11 +78,12 @@ public class LightSource : MonoBehaviour
             // Update the reflection angle of the hit mirror's light beam
             Vector3 normal = hit.normal;
 
-            if (normal == hit.transform.right && hitObj.tag == "Mirror")
+            if (normal.normalized == hit.transform.right && hitObj.tag == "Mirror")
             {
                 reflectAngle = Vector3.Reflect(dir, hit.normal);
 
                 hitObj.GetComponent<Mirror>().lightOutAngle = reflectAngle;
+                hitObj.GetComponent<Mirror>().norm = normal;
             }
         }
     }
