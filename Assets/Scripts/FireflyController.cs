@@ -18,7 +18,7 @@ public class FireflyController : MonoBehaviour
     CircleCollider2D lightCollider;
     Light2D lightRef;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         lightObject = Instantiate(fireflyLightPrefab, transform.position, Quaternion.identity);
         lightCollider = gameObject.AddComponent<CircleCollider2D>();
@@ -58,10 +58,5 @@ public class FireflyController : MonoBehaviour
         lightObject.gameObject.transform.position = position;
 
         lightCollider.transform.position = position;
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        
     }
 }

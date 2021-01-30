@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerTest : MonoBehaviour
 {
     float horizontal;
     float vertical;
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
-        //lightObject = Instantiate(fireflyLightPrefab, rigidbody2d.position, Quaternion.identity);
+        lightObject = Instantiate(fireflyLightPrefab, rigidbody2d.position, Quaternion.identity);
     }
 
     // Update is called once per frame
