@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4283138858145764452}
   - component: {fileID: 4283138858145764453}
   - component: {fileID: 4283138858145764450}
+  - component: {fileID: 9032825192773824881}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Mirror
@@ -122,10 +123,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4190a40ab7aa6b345b41afe07b6d3780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitObj: {fileID: 0}
   LightObject: {fileID: 8880531374882142418, guid: be0d346bbb8dfad44b7da00f3ff09f9a, type: 3}
   createBeam: 0
-  rightVec: {x: 0, y: 0, z: 0}
-  dir: {x: 0, y: 0, z: 0}
+  lightOutAngle: {x: 0, y: 0, z: 0}
+  reflectAngle: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
-  point: {x: 0, y: 0, z: 0}
+  mid: {x: 0, y: 0, z: 0}
+  rightVec: {x: 0, y: 0, z: 0}
+  norm: {x: 0, y: 0, z: 0}
+  normalizedNormal: {x: 0, y: 0, z: 0}
+--- !u!50 &9032825192773824881
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4283138858145764454}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

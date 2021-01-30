@@ -28,8 +28,6 @@ public class LightSource : MonoBehaviour
 
         if (hit = Physics2D.Raycast(startPos, transform.right))
         {
-            Debug.DrawRay(startPos, transform.right);
-
             if (!hit.collider.isTrigger)
             {
                 if (hitObj != null)

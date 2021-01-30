@@ -56,8 +56,6 @@ public class Mirror : MonoBehaviour
 
         if (hit = Physics2D.Raycast(startPos, lightOutAngle))
         {
-            Debug.DrawRay(startPos, lightOutAngle);
-
             if (!hit.collider.isTrigger)
             {
                 rightVec = transform.right;
