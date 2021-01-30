@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Key
   - Mirror
+  - LightBeam
   layers:
   - Default
   - TransparentFX
