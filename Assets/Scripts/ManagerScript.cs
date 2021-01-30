@@ -11,7 +11,7 @@ public class ManagerScript : MonoBehaviour
     public GameObject doorOne;
     public DoorScript doorScriptOne;
     public GameObject mirror;
-    public MirrorScript mirrorScript;
+    public Mirror mirrorScript;
 
     // Start is called before the first frame update
     void Start()

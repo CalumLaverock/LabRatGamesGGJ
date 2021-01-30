@@ -5,19 +5,25 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public Vector2 startPos;
-    public float speed = 20f;
+    public float speed = 5f;
     public CircleCollider2D self;
     public Rigidbody2D rb;
 
     public Animator animator;
 
     bool interacting;
-    int interactions;
     float interactTimer;
     Vector2 move;
 
     bool clockwise = false;
     bool anticlockwise = false;
+
+    public int litUp = 0;
+
+    void Start()
+    {
+        Reset();
+    }
 
     void Update()
     {
@@ -36,7 +42,6 @@ public class PlayerMove : MonoBehaviour
                 interacting = true;
                 clockwise = true;
                 interactTimer = 0;
-                interactions = 1;
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -45,7 +50,6 @@ public class PlayerMove : MonoBehaviour
                 interacting = true;
                 anticlockwise = true;
                 interactTimer = 0;
-                interactions = 1;
             }
         }
         else
@@ -71,25 +75,23 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D trigger)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if(interacting && interactions > 0)
+        if(interacting)
         {
-            if(trigger.gameObject.tag == "Mirror")
+            if(collision.gameObject.tag == "Mirror")
             {
                 if (clockwise)
                 {
-                    trigger.gameObject.transform.Rotate(trigger.gameObject.transform.forward * -5f);
+                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * -5f);
                     clockwise = false;
                 }
             
                 if(anticlockwise)
                 {
-                    trigger.gameObject.transform.Rotate(trigger.gameObject.transform.forward * 5f);
+                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * 5f);
                     anticlockwise = false;
                 }
-
-                interactions--;
             }
         }
     }
@@ -100,10 +102,28 @@ public class PlayerMove : MonoBehaviour
         {
             trigger.gameObject.SetActive(false);
         }
+
+        if(trigger.gameObject.tag == "LightBeam")
+        {
+            litUp++;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D trigger)
+    {
+        if (trigger.gameObject.tag == "LightBeam")
+        {
+            litUp--;
+            if(litUp < 1)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void Reset()
     {
+        gameObject.SetActive(true);
         rb.transform.position = startPos;
     }
 }
