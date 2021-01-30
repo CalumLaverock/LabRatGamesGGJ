@@ -44,5 +44,7 @@ public class DoorScript: MonoBehaviour
         moved = false;
         enabled = false;
         door.transform.position = startPos;
+        currentMove.x = 0;
+        currentMove.y = 0;
     }
 }

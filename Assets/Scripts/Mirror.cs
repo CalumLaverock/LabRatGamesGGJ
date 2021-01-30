@@ -21,9 +21,17 @@ public class Mirror : MonoBehaviour
     public Vector3 normalizedNormal;
     public float width;
 
+    public float startRotation;
+    public GameObject mirror;
+
+    Quaternion originalRotation;
+
     // Start is called before the first frame update
     void Start()
     {
+        mirror.gameObject.transform.Rotate(mirror.gameObject.transform.forward, startRotation);
+        originalRotation = mirror.gameObject.transform.rotation;
+
         lightOutAngle = new Vector3(0.0f, 0.0f, 0.0f);
         createBeam = false;
     }
@@ -125,5 +133,10 @@ public class Mirror : MonoBehaviour
                 hitObj.GetComponent<Mirror>().lightOutAngle = reflectAngle;
             }
         }
+    }
+
+    public void Reset()
+    {
+        mirror.gameObject.transform.rotation = originalRotation;
     }
 }
