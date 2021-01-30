@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class KeyScript : MonoBehaviour
 {
-    void FixedUpdate()
-    {
-        
-    }
-
     public void Reset()
     {
         gameObject.SetActive(true);

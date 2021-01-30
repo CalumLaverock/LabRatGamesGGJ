@@ -71,21 +71,21 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D trigger)
     {
         if(interacting && interactions > 0)
         {
-            if(collision.gameObject.tag == "Mirror")
+            if(trigger.gameObject.tag == "Mirror")
             {
                 if (clockwise)
                 {
-                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * -5f);
+                    trigger.gameObject.transform.Rotate(trigger.gameObject.transform.forward * -5f);
                     clockwise = false;
                 }
             
                 if(anticlockwise)
                 {
-                    collision.gameObject.transform.Rotate(collision.gameObject.transform.forward * 5f);
+                    trigger.gameObject.transform.Rotate(trigger.gameObject.transform.forward * 5f);
                     anticlockwise = false;
                 }
 

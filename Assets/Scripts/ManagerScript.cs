@@ -9,7 +9,7 @@ public class ManagerScript : MonoBehaviour
     public GameObject keyOne;
     public KeyScript keyScript;
     public GameObject doorOne;
-    public DoorScript doorScript;
+    public DoorScript doorScriptOne;
     public GameObject mirror;
     public MirrorScript mirrorScript;
 
@@ -27,16 +27,19 @@ public class ManagerScript : MonoBehaviour
             Reset();
         }
     }
-    
+
     void FixedUpdate()
     {
-
+        if(!keyOne.activeSelf && !doorScriptOne.moved)
+        {
+            doorScriptOne.enabled = true;
+        }
     }
 
     void Reset()
     {
         playerScript.Reset();
-        doorScript.Reset();
+        doorScriptOne.Reset();
         keyScript.Reset();
         mirrorScript.Reset();
     }
