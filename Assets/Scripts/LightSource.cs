@@ -36,7 +36,7 @@ public class LightSource : MonoBehaviour
                     norm = normal.normalized;
 
                     // if the light beam hits a different object then set the previous objects createBeam flag to false
-                    if (hitObj.tag == "Mirror" && (hit.collider.gameObject != hitObj || normal.normalized != hit.transform.right))
+                    if (hitObj.tag == "Mirror" && (hit.collider.gameObject != hitObj || normal != hit.transform.right))
                     {
                         hitObj.GetComponent<Mirror>().createBeam = false;
                     }
@@ -76,7 +76,7 @@ public class LightSource : MonoBehaviour
             // Update the reflection angle of the hit mirror's light beam
             Vector3 normal = hit.normal;
 
-            if (normal.normalized == hit.transform.right && hitObj.tag == "Mirror")
+            if (normal == hit.transform.up && hitObj.tag == "Mirror")
             {
                 reflectAngle = Vector3.Reflect(dir, hit.normal);
 

@@ -19,6 +19,7 @@ public class Mirror : MonoBehaviour
     public Vector3 rightVec;
     public Vector3 norm;
     public Vector3 normalizedNormal;
+    public float width;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +39,7 @@ public class Mirror : MonoBehaviour
             transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f), 5.0f);
         }
 
-        if((Mathf.Round(norm.x * 100.0f)) / 100.0f != (Mathf.Round(transform.right.x * 100.0f)) / 100.0f)
+        if((Mathf.Round(norm.x * 100.0f)) / 100.0f != (Mathf.Round(transform.up.x * 100.0f)) / 100.0f)
         {
             createBeam = false;
         }
@@ -51,8 +52,8 @@ public class Mirror : MonoBehaviour
 
         RaycastHit2D hit;
 
-        float width = GetComponent<BoxCollider2D>().bounds.size.x + 0.001f;
-        startPos = transform.position + (transform.right * (width / 2));
+        width = GetComponent<BoxCollider2D>().bounds.size.x;
+        startPos = transform.position + (transform.up*0.5f);// (width / 2));
 
         if (hit = Physics2D.Raycast(startPos, lightOutAngle))
         {
@@ -110,7 +111,7 @@ public class Mirror : MonoBehaviour
             LightBeam.transform.position = mid;
             LightBeam.transform.localScale = new Vector3(dir.magnitude, 1.4f, 0.0f);
 
-            float angle = Vector3.Angle(transform.right, lightOutAngle);
+            float angle = Vector3.Angle(transform.up, lightOutAngle);
             angle = lightOutAngle.y > 0.0f ? -angle : angle;
             LightBeam.transform.localEulerAngles = (new Vector3(0.0f,0.0f,1.0f) * angle * 2);
 
